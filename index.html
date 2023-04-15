@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>UnChat</title>
+</head>
+
+<body>
+    <div class="main">
+        <nav>
+            <h1 class="header">UnChat</h1>
+            <a class="about" href="https://chandusurisetty.in/">about UnChat</a>
+
+        </nav>
+
+        <form class="form ">
+            <div class="msgbar">
+                <input type="text" autofocus class="form-control" name="msg" id="msgs">
+            </div>
+            <div class="btnbar">
+                <button class="btn ">sent</button>
+            </div>
+
+        </form>
+
+
+        <ul id="ul">
+
+        </ul>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+        integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
+        crossorigin="anonymous"></script>
+    <script>
+        function getWebSocketServer() {
+            if (window.location.host === "chatwithme-7uo9.onrender.com") {
+                return "wss://server-f9cl.onrender.com";
+            } else if (window.location.host === "localhost:8000") {
+                return "ws://localhost:8001/";
+            } else {
+                throw new Error(`Unsupported host: ${window.location.host}`);
+            }
+        }
+        const uname = prompt("enter name")
+        const socket = new WebSocket(getWebSocketServer());
+        const msgs = document.querySelector("#msgs")
+        const btn = document.querySelector(".btn")
+        const ul = document.querySelector("#ul")
+
+        // Connection opened
+        socket.addEventListener('open', (event) => {
+            const para = document.createElement("li")
+            const p = document.createElement("p")
+            p.innerText = `you are online now`
+            p.style.color = "red"
+            p.classList.add("p")
+            para.appendChild(p)
+            ul.appendChild(para)
+            console.log("connected")
+            socket.send(`${uname} is online`);
+        });
+
+        socket.addEventListener("close", (event) => {
+            console.log("Disconnected")
+            socket.send(`${uname} is disconnected`)
+        })
+        // Listen for messages
+        socket.addEventListener('message', (event) => {
+            const para = document.createElement("li")
+            const p = document.createElement("p")
+            p.innerText = event.data
+            p.style.color = "blue"
+            p.classList.add("p")
+            para.appendChild(p)
+            ul.appendChild(para)
+
+        });
+
+        btn.addEventListener("click", (e) => {
+
+
+            e.preventDefault()
+            const para = document.createElement("li")
+
+            const p = document.createElement("p")
+            p.innerText = uname + " : " + msgs.value
+            p.style.color = "red"
+            p.classList.add("p")
+            para.appendChild(p)
+            ul.appendChild(para)
+            socket.send(uname + " : " + msgs.value)
+            console.log(name)
+            msgs.value = ""
+        })
+
+
+
+
+
+    </script>
+
+</body>
+
+
+
+
+
+
+</html>
