@@ -62,11 +62,11 @@
         // Connection opened
         socket.addEventListener('open', (event) => {
             const para = document.createElement("li")
-            const p = document.createElement("p")
-            p.innerText = `you are online now`
-            p.style.color = "red"
-            p.classList.add("p")
-            para.appendChild(p)
+            const pre = document.createElement("pre")
+            pre.innerText = `you are online now`
+            pre.style.color = "red"
+            pre.classList.add("p")
+            para.appendChild(pre)
             ul.appendChild(para)
             console.log("connected")
             socket.send(`${uname} is online`);
@@ -79,11 +79,11 @@
         // Listen for messages
         socket.addEventListener('message', (event) => {
             const para = document.createElement("li")
-            const p = document.createElement("p")
-            p.innerText = event.data
-            p.style.color = "blue"
-            p.classList.add("p")
-            para.appendChild(p)
+            const pre = document.createElement("pre")
+            pre.innerText = event.data
+            pre.style.color = "blue"
+            pre.classList.add("p")
+            para.appendChild(pre)
             ul.appendChild(para)
 
         });
@@ -94,11 +94,11 @@
             e.preventDefault()
             const para = document.createElement("li")
 
-            const p = document.createElement("p")
-            p.innerText = uname + " : " + msgs.value
-            p.style.color = "red"
-            p.classList.add("p")
-            para.appendChild(p)
+            const pre = document.createElement("pre")
+            pre.innerText = uname + " : " + msgs.value
+            pre.style.color = "red"
+            pre.classList.add("p")
+            para.appendChild(pre)
             ul.appendChild(para)
             socket.send(uname + " : " + msgs.value)
             console.log(name)
