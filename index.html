@@ -21,7 +21,8 @@
 
         <form class="form ">
             <div class="msgbar">
-                <input type="text" autofocus class="form-control" name="msg" id="msgs">
+                <textarea autofocus class="form-control" name="msg" id="msgs"></textarea>
+<!--                 <input type="text" autofocus class="form-control" name="msg" id="msgs"> -->
             </div>
             <div class="btnbar">
                 <button class="btn ">sent</button>
@@ -103,8 +104,19 @@
             console.log(name)
             msgs.value = ""
         })
+        
 
-
+        msgs.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                if (e.shiftKey) {
+                    e.preventDefault(); // prevent default behavior of adding a new line
+                    msgs.value += "\n"; // add a new line to the text area
+                } else {
+                    e.preventDefault(); // prevent default behavior of adding a new line
+                    btn.click(); // trigger send button click
+                }
+            }
+        })
 
 
 
